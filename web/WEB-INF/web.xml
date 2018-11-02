@@ -6,7 +6,6 @@
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>
-
     <servlet>
         <servlet-name>homeServlet</servlet-name>
         <servlet-class>servlets.HomeServlet</servlet-class>

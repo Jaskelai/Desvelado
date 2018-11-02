@@ -1,8 +1,12 @@
 package servlets;
 
+import entities.User;
 import org.json.JSONObject;
+import repositories.UsersRepository;
+import repositories.UsersRepositoryDB;
 import utils.CountryGenerator;
-import utils.FIeldValidator;
+import utils.FIeldRegValidator;
+import utils.PasswordEncryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,20 +31,23 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         String bDay = req.getParameter("bDay");
         String country = req.getParameter("country");
-        Boolean sex = (req.getParameter("sex").equals("male"));
-        FIeldValidator fIeldValidator = new FIeldValidator();
-        JSONObject result = fIeldValidator.validate(email, password, bDay);
-        System.out.println(result.toString());
+        Boolean gender = (req.getParameter("gender").equals("male"));
+        FIeldRegValidator fIeldValidator = new FIeldRegValidator();
+        JSONObject resultValidation = fIeldValidator.validate(email, password, bDay);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        System.out.println(result.toString());
-        if (result.toString().equals("{}")) {
-            result.put("uri","login.jsp");
+        if (resultValidation.toString().equals("{}")) {
+            User user = new User(email, PasswordEncryptor.hashPassword(password), country, gender, bDay);
+            UsersRepository userRepository = new UsersRepositoryDB();
+            if (!userRepository.isExist(user)) {
+                userRepository.save(user);
+                resultValidation.put("url", "login");
+            } else {
+                resultValidation.put("existDBError","Email already exist in database!");
+            }
         }
-        System.out.println(result.toString());
         PrintWriter pw = new PrintWriter(resp.getWriter());
-        System.out.println(result.toString());
-        pw.write(result.toString());
+        pw.write(resultValidation.toString());
         pw.flush();
         pw.close();
     }

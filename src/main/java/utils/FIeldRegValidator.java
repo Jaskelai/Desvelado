@@ -3,11 +3,11 @@ package utils;
 
 import org.json.JSONObject;
 
-public class FIeldValidator {
+public class FIeldRegValidator {
     public JSONObject validate(String email, String password, String bDay) {
-        EmailValidator emailValidator = new EmailValidator();
-        PasswordValidator passwordValidator = new PasswordValidator();
-        BirthdayValidator birthdayValidator = new BirthdayValidator();
+        EmailRegValidator emailValidator = new EmailRegValidator();
+        PasswordRegValidator passwordValidator = new PasswordRegValidator();
+        BirthdayRegValidator birthdayValidator = new BirthdayRegValidator();
         JSONObject map = new JSONObject();
         if (!emailValidator.validate(email)) {
             map.put("emailError", "Wrong email!");
