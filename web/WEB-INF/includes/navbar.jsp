@@ -19,7 +19,7 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignIn" href="#">Login</a>
+                <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignIn" href="<c:url value="/login"/>">Login</a>
             </li>
             <li class="nav-item">
                 <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignUp"

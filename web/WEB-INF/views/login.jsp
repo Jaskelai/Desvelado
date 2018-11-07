@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="inputTag" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,14 +25,10 @@
         <div class="main-agileinfo">
             <div class="agileits-top">
                 <form id="form" method="post">
-                    <div class="form-group">
-                        <label for="emailField" class="text label">Enter your email:</label>
-                        <input class="text" type="text" name="email" id="emailField" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passField" class="text label">Enter your password:</label>
-                        <input class="text" type="password" name="password" id="passField" placeholder="Enter your password" required>
-                    </div>
+                    <inputTag:inputTextField textLabel="Enter your email:" idField="emailField" typeField="text"
+                                             nameField="email" classField="text" placeholderField="Enter your email"/>
+                    <inputTag:inputTextField textLabel="Enter your password:" idField="passField" typeField="password"
+                                             nameField="password" classField="text" placeholderField="Enter your password"/>
                     <input type="submit" value="SIGNIN" id="btnSubmit">
                 </form>
             </div>

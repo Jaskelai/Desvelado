@@ -16,7 +16,6 @@ public class PasswordEncryptor {
         }
         return new String(hexChars);
     }
-
     private static String SALT = "jflgfk";
 
     // A password hashing method.

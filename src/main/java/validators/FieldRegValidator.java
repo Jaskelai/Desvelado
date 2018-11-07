@@ -1,9 +1,9 @@
-package utils;
+package validators;
 
 
 import org.json.JSONObject;
 
-public class FIeldRegValidator {
+public class FieldRegValidator {
     public JSONObject validate(String email, String password, String bDay) {
         EmailRegValidator emailValidator = new EmailRegValidator();
         PasswordRegValidator passwordValidator = new PasswordRegValidator();

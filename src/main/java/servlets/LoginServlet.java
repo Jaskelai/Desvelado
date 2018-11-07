@@ -1,21 +1,19 @@
 package servlets;
 
+import dao.UsersDao;
+import dao.UsersDaoJdbcImpl;
 import entities.User;
-import repositories.UsersRepository;
-import repositories.UsersRepositoryDB;
+import org.json.JSONObject;
 import utils.PasswordEncryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Connection;
+import java.io.Writer;
 
 public class LoginServlet extends HttpServlet {
-    private UsersRepository usersRepository;
-    private Connection connection;
 
     @Override
     public void init() throws ServletException {
@@ -24,19 +22,29 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        usersRepository = new UsersRepositoryDB();
-        if (usersRepository.isExist(new User(email, PasswordEncryptor.hashPassword(password),null,false,null ))) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", email);
-            System.out.println("AUTHENTIFICATION COMPLETED");
-            resp.sendRedirect("index.jsp");
+        UsersDao usersDao = new UsersDaoJdbcImpl();
+        User user = usersDao.findByEmail(email);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        JSONObject result = new JSONObject();
+        if (user == null) {
+            result.put("emailError","Email does not exist in database!");
+        } else if (!PasswordEncryptor.hashPassword(password).equals(user.getPassword())) {
+            result.put("passwordError","Wrong password!");
         }
+        if (result.toString().equals("{}")) {
+            result.put("url","index");
+        }
+
+        Writer pw = resp.getWriter();
+        pw.write(result.toString());
+        pw.close();
     }
 }

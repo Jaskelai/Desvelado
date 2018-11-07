@@ -1,16 +1,27 @@
 package entities;
 
 
+import java.util.Date;
 import java.util.Objects;
 
 public class User {
+    private Integer id;
     private String email;
     private String password;
     private String country;
     private boolean gender;
-    private String birthday;
+    private Date birthday;
 
-    public User(String email, String password, String country, boolean gender, String birthday) {
+    public User(Integer id, String email, String password, String country, boolean gender, Date birthday) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
+
+    public User(String email, String password, String country, boolean gender, Date birthday) {
         this.email = email;
         this.password = password;
         this.country = country;
@@ -50,12 +61,20 @@ public class User {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
