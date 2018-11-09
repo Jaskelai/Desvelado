@@ -3,7 +3,7 @@ package utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordEncryptor {
+public class Encryptor {
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String bytesToHex(byte[] bytes) {

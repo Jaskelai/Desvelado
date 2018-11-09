@@ -1,12 +1,13 @@
 package servlets;
 
-import dao.UsersDao;
 import dao.UsersDaoJdbcImpl;
 import entities.User;
 import org.json.JSONObject;
-import utils.PasswordEncryptor;
+import utils.Encryptor;
+import utils.TokenGenerator;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,20 +30,26 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDaoJdbcImpl usersDao = new UsersDaoJdbcImpl();
         User user = usersDao.findByEmail(email);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         JSONObject result = new JSONObject();
-        if (user == null) {
-            result.put("emailError","Email does not exist in database!");
-        } else if (!PasswordEncryptor.hashPassword(password).equals(user.getPassword())) {
-            result.put("passwordError","Wrong password!");
+        if (usersDao.findByEmail(email) == null) {
+            result.put("fieldError","Email does not exist in database!");
+        } else if (!Encryptor.hashPassword(password).equals(usersDao.findByEmail(email).getPassword())) {
+            result.put("fieldError","Passowrd is wrong!");
         }
         if (result.toString().equals("{}")) {
-            result.put("url","index");
+            result.put("url","hello");
+            String token = new TokenGenerator(20).nextString();
+            Cookie cookieToken = new Cookie("token", token);
+            cookieToken.setMaxAge(1000 * 60 * 60);
+            Cookie cookieEmail = new Cookie("email", Encryptor.hashPassword(email));
+            resp.addCookie(cookieEmail);
+            resp.addCookie(cookieToken);
+            usersDao.saveToken(token,user);
         }
-
         Writer pw = resp.getWriter();
         pw.write(result.toString());
         pw.close();

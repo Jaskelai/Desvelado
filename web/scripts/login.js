@@ -12,11 +12,8 @@ $(document).ready(function () {
             url: 'login',
             data: dataFields,
             success: function (result) {
-                if (result.emailError != null) {
-                    alert(result.emailError);
-                }
-                if (result.passwordError != null) {
-                    alert(result.passwordError);
+                if (result.fieldError != null) {
+                    alert(result.fieldError);
                 }
                 if (result.url != null) {
                     window.location.href = result.url;

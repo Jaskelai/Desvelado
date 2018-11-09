@@ -32,6 +32,8 @@
                 <form id="form" method="post">
                     <inputTag:inputTextField textLabel="Enter email:" idField="emailField" typeField="text"
                                              nameField="email" placeholderField="Enter your email" classField="text"/>
+                    <inputTag:inputTextField textLabel="Enter username:" idField="usernameField" typeField="text"
+                                             nameField="username" placeholderField="Enter your username" classField="text"/>
                     <inputTag:inputTextField textLabel="Enter password:" idField="passField" typeField="password"
                                              nameField="password" placeholderField="Enter your password"
                                              classField="text"/>

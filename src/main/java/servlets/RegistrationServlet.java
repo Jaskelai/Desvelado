@@ -1,12 +1,12 @@
 package servlets;
 
+import dao.CountriesDaoJdbcImpl;
 import dao.UsersDao;
 import dao.UsersDaoJdbcImpl;
 import entities.User;
 import org.json.JSONObject;
-import utils.CountryGenerator;
 import validators.FieldRegValidator;
-import utils.PasswordEncryptor;
+import utils.Encryptor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +22,8 @@ import java.util.List;
 public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CountryGenerator countryGenerator = new CountryGenerator();
-        List<String> countries = countryGenerator.getCountries();
+        CountriesDaoJdbcImpl cdji = new CountriesDaoJdbcImpl();
+        List<String> countries = cdji.findAll();
         req.setAttribute("listCountries", countries.toString().replaceAll("\\[", "").replaceAll("\\]", ""));
         req.getServletContext().getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
     }
@@ -31,6 +31,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
+        String username = req.getParameter("username");
         String password = req.getParameter("password");
         String bDay = req.getParameter("bDay");
         String country = req.getParameter("country");
@@ -43,16 +44,18 @@ public class RegistrationServlet extends HttpServlet {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             User user = null;
             try {
-                user = new User(email, PasswordEncryptor.hashPassword(password), country, gender, sdf.parse(bDay));
+                user = new User(username, email, Encryptor.hashPassword(password), country, gender, sdf.parse(bDay));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             UsersDao usersDao = new UsersDaoJdbcImpl();
-            if (usersDao.findByEmail(user.getEmail()) == null) {
+            if (usersDao.findByEmail(user.getEmail()) != null) {
+                resultValidation.put("fieldError", "Email already exist in database!");
+            } else if (usersDao.findByUsername(user.getUsername()) != null) {
+                resultValidation.put("fieldError", "User with this username already exist in database!");
+            } else {
                 usersDao.save(user);
                 resultValidation.put("url", "login");
-            } else {
-                resultValidation.put("existDBError", "Email already exist in database!");
             }
         }
         Writer pw = resp.getWriter();

@@ -5,23 +5,15 @@ import java.util.Date;
 import java.util.Objects;
 
 public class User {
-    private Integer id;
+    private String username;
     private String email;
     private String password;
     private String country;
     private boolean gender;
     private Date birthday;
 
-    public User(Integer id, String email, String password, String country, boolean gender, Date birthday) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.country = country;
-        this.gender = gender;
-        this.birthday = birthday;
-    }
-
-    public User(String email, String password, String country, boolean gender, Date birthday) {
+    public User(String username, String email, String password, String country, boolean gender, Date birthday) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.country = country;
@@ -69,12 +61,12 @@ public class User {
         this.birthday = birthday;
     }
 
-    public Integer getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -83,6 +75,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return gender == user.gender &&
+                Objects.equals(username, user.username) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(country, user.country) &&
@@ -92,6 +85,6 @@ public class User {
     @Override
     public int hashCode() {
 
-        return Objects.hash(email, password, country, gender, birthday);
+        return Objects.hash(username, email, password, country, gender, birthday);
     }
 }

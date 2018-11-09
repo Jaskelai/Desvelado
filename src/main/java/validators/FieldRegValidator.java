@@ -10,13 +10,13 @@ public class FieldRegValidator {
         BirthdayRegValidator birthdayValidator = new BirthdayRegValidator();
         JSONObject map = new JSONObject();
         if (!emailValidator.validate(email)) {
-            map.put("emailError", "Wrong email!");
+            map.put("fieldError", "Wrong email!");
         }
         if (!passwordValidator.validate(password)) {
-            map.put("passwordError", "Wrong password!");
+            map.put("fieldError", "Wrong password!");
         }
         if (!birthdayValidator.validate(bDay)) {
-            map.put("bDayError","Wrong birthday!");
+            map.put("fieldError","Wrong birthday!");
         }
         return map;
     }
