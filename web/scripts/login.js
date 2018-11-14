@@ -3,9 +3,11 @@ $(document).ready(function () {
         e.preventDefault();
         var email = $('#emailField').val();
         var password = $('#passField').val();
+        var rememberme = $('#remembermeField').is(':checked');
         var dataFields = {
             "email": email,
-            "password": password
+            "password": password,
+            "rememberme": rememberme
         };
         $.ajax({
             type: 'Post',

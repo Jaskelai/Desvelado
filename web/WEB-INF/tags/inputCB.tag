@@ -4,7 +4,7 @@
 
 <div class="wthree-text">
     <label class="anim">
-        <input type="checkbox" name="${nameField}" id="${idCB}" class="checkbox" required>
+        <input type="checkbox" name="${nameField}" id="${idCB}" class="checkbox">
         <span>${valueField}</span>
     </label>
     <div class="clear"></div>

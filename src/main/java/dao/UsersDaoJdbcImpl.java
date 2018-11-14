@@ -10,20 +10,17 @@ import java.util.List;
 
 public class UsersDaoJdbcImpl implements UsersDao {
     //language=sql
-    private final String SQL_SELECT_ALL = "SELECT * FROM desvelado_user";
+    private final String SQL_SELECT_ALL = "SELECT * FROM desvelado.user";
     //language=sql
-    private final String SQL_SELECT_BY_EMAIL = "SELECT * FROM desvelado_user WHERE email = ?";
+    private final String SQL_SELECT_BY_EMAIL = "SELECT * FROM desvelado.user WHERE email = ?";
     //language=sql
-    private final String SQL_SELECT_BY_USERNAME = "SELECT * FROM desvelado_user WHERE username = ?";
+    private final String SQL_SELECT_BY_USERNAME = "SELECT * FROM desvelado.user WHERE username = ?";
     //language=sql
-    private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado_user WHERE id = ?";
+    private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado.user WHERE id = ?";
     //language=sql
-    private final String SQL_INSERT = "INSERT INTO desvelado_user(email, username, password, country, gender, birthdate) VALUES (?,?,?,?,?,?)";
+    private final String SQL_INSERT = "INSERT INTO desvelado.user(email, username, password, country, gender, birthdate) VALUES (?,?,?,?,?,?)";
     //language=sql
-    private final String SQL_UPDATE_TOKEN = "UPDATE desvelado_user SET token = ? WHERE email = ?";
-    //language=sql
-    private final String SQL_SELECT_BY_TOKEN = "SELECT * FROM desvelado_user WHERE token = ?";
-    //private final String SQL_UPDATE = "UPDATE desvelado_user SET (email, password, country, gender, birthdate) VALUES (?,?,?,?,?)";
+    private final String SQL_UPDATE = "UPDATE desvelado.user set password = ?, country = ?, gender = ?, birthdate = ?, email = ?, token = ? WHERE username = ?";
 
     private Connection connection;
 
@@ -101,6 +98,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             int country = new CountriesDaoJdbcImpl().findByCountry(model.getCountry());
+            System.out.println(country);
             statement.setString(1, model.getEmail());
             statement.setString(2, model.getUsername());
             statement.setString(3, model.getPassword());
@@ -115,7 +113,20 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     @Override
     public void update(User model) {
-        // TODO ADD UPDATE method
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+            int country = new CountriesDaoJdbcImpl().findByCountry(model.getCountry());
+            statement.setString(1, model.getPassword());
+            statement.setInt(2, country);
+            statement.setBoolean(3, model.isGender());
+            statement.setDate(4, new java.sql.Date(model.getBirthday().getTime()));
+            statement.setString(5, model.getEmail());
+            statement.setString(6, model.getToken());
+            statement.setString(7,model.getUsername());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -143,36 +154,5 @@ public class UsersDaoJdbcImpl implements UsersDao {
             e.printStackTrace();
         }
         return users;
-    }
-    public void saveToken(String token, User model) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_TOKEN);
-            statement.setString(1, token);
-            statement.setString(2,model.getEmail());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public User findByToken(String token) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TOKEN);
-            statement.setString(1, token);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String username = resultSet.getString("username");
-                Integer countryId = resultSet.getInt("country");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                Boolean gender = resultSet.getBoolean("gender");
-                Date birthdate = resultSet.getDate("birthdate");
-                String country = new CountriesDaoJdbcImpl().find(countryId);
-                return new User(username, email, password, country, gender, birthdate);
-            } else return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
     }
 }

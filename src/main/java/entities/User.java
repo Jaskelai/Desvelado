@@ -11,6 +11,7 @@ public class User {
     private String country;
     private boolean gender;
     private Date birthday;
+    private String token;
 
     public User(String username, String email, String password, String country, boolean gender, Date birthday) {
         this.username = username;
@@ -19,6 +20,15 @@ public class User {
         this.country = country;
         this.gender = gender;
         this.birthday = birthday;
+    }
+    public User(String username, String email, String password, String country, boolean gender, Date birthday, String token) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.token = token;
     }
 
     public String getEmail() {
@@ -67,6 +77,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

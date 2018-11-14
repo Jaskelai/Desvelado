@@ -10,11 +10,11 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
 
     private Connection connection;
     // language=sql
-    private final String SQL_SELECT_ALL = "SELECT * FROM desvelado_country";
+    private final String SQL_SELECT_ALL = "SELECT * FROM desvelado.country";
     //language=sql
-    private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado_country WHERE id = ?";
+    private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado.country WHERE id = ?";
     //language=sql
-    private final String SQL_SELECT_BY_COUNTRY = "SELECT * FROM desvelado_country WHERE country = ?";
+    private final String SQL_SELECT_BY_COUNTRY = "SELECT * FROM desvelado.country WHERE countryname = ?";
 
     public CountriesDaoJdbcImpl() {
         DatabaseConnection databaseConnection = DatabaseConnection.getInstanceToGetConnection();
@@ -28,7 +28,7 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("country");
+                return resultSet.getString("countryname");
             } else return null;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL);
             while (resultSet.next()) {
-                String country = resultSet.getString("country");
+                String country = resultSet.getString("countryname");
                 countries.add(country);
             }
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
     public int findByCountry(String country) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_COUNTRY);
-            statement.setString(1, country.substring(1));
+            statement.setString(1, country);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");

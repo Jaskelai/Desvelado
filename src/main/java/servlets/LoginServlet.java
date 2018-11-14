@@ -1,25 +1,18 @@
 package servlets;
 
-import dao.UsersDaoJdbcImpl;
 import entities.User;
 import org.json.JSONObject;
-import utils.Encryptor;
+import services.UserService;
 import utils.TokenGenerator;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.Writer;
 
 public class LoginServlet extends HttpServlet {
 
-    @Override
-    public void init() throws ServletException {
-
-    }
+    UserService userService = UserService.getUserServiceInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,25 +23,24 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        UsersDaoJdbcImpl usersDao = new UsersDaoJdbcImpl();
-        User user = usersDao.findByEmail(email);
+        String rememberme = req.getParameter("rememberme");
+        User user = userService.findByEmail(email);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        JSONObject result = new JSONObject();
-        if (usersDao.findByEmail(email) == null) {
-            result.put("fieldError","Email does not exist in database!");
-        } else if (!Encryptor.hashPassword(password).equals(usersDao.findByEmail(email).getPassword())) {
-            result.put("fieldError","Passowrd is wrong!");
-        }
+        JSONObject result = userService.validateLogin(email,password);
         if (result.toString().equals("{}")) {
-            result.put("url","hello");
-            String token = new TokenGenerator(20).nextString();
-            Cookie cookieToken = new Cookie("token", token);
-            cookieToken.setMaxAge(1000 * 60 * 60);
-            Cookie cookieEmail = new Cookie("email", Encryptor.hashPassword(email));
-            resp.addCookie(cookieEmail);
-            resp.addCookie(cookieToken);
-            usersDao.saveToken(token,user);
+            if (rememberme.equals("true")) {
+                String token = new TokenGenerator(20).nextString();
+                Cookie tokenCookie = new Cookie("token", token);
+                tokenCookie.setMaxAge(60*60*24*365);
+                resp.addCookie(tokenCookie);
+                user.setToken(token);
+                userService.update(user);
+            }
+            result.put("url", "profile");
+            HttpSession session = req.getSession();
+            session.setMaxInactiveInterval(60*60*24*2);
+            session.setAttribute("username", user.getUsername());
         }
         Writer pw = resp.getWriter();
         pw.write(result.toString());

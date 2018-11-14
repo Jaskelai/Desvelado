@@ -49,7 +49,7 @@
                     <inputTag:inputCB idCB="licenceCBField" nameField="licenceCB" valueField="I Agree To The Terms & Conditions"/>
                     <input type="submit" value="SIGNUP" id="btnSubmit">
                 </form>
-                <p>Don't have an Account? <a href="<c:url value="/login"/>"> Login Now!</a></p>
+                <p>Already have an Account? <a href="<c:url value="/login"/>"> Login Now!</a></p>
             </div>
         </div>
     </div>

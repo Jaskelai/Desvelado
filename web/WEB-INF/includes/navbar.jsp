@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-md navbar-dark">
-    <a class="navbar-brand" href="<c:url value="/index"/>">Desvelado</a>
+    <a class="navbar-brand" href="<c:url value="/home"/>">Desvelado</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/index"/>">Home</a>
+                <a class="nav-link" href="<c:url value="/home"/>">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Videos</a>
@@ -18,13 +18,28 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignIn" href="<c:url value="/login"/>">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignUp"
-                   href="<c:url value="/registration"/>">Register</a>
-            </li>
+            <c:choose>
+                <c:when test='${sessionScope.username == null}'>
+                    <li class="nav-item">
+                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignIn"
+                           href="<c:url value="/login"/>">Login</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="nav-item">
+                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignOut"
+                           href="<c:url value="/logout"/>">Log out</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test='${sessionScope.username == null}'>
+                    <li class="nav-item">
+                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignUp"
+                           href="<c:url value="/registration"/>">Register</a>
+                    </li>
+                </c:when>
+            </c:choose>
         </ul>
     </div>
 </nav>

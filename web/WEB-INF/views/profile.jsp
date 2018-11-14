@@ -1,10 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="inputTag" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/oxygen_font.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/navbar.css"/>">
@@ -12,34 +11,25 @@
     <link rel="stylesheet" href="<c:url value="/css/footer.css"/>">
     <script src="<c:url value = "/scripts/jquery.js"/>"></script>
     <script src="<c:url value="/scripts/bootstrap.min.js"/>"></script>
-    <script src="<c:url value="/scripts/login.js"/>"></script>
 </head>
 <body>
 <div id="navbar">
     <jsp:include page="../includes/navbar.jsp"/>
 </div>
-<main class="regForm" style="background: url('<c:url
+<main class="profile" style="background: url('<c:url
         value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover">
     <div class="main-w3layouts wrapper">
-        <h1>Login:</h1>
+        <h1>Profile:</h1>
         <div class="main-agileinfo">
             <div class="agileits-top">
                 <form id="form" method="post">
-                    <inputTag:inputTextField textLabel="Enter your email:" idField="emailField" typeField="text"
-                                             nameField="email" classField="text" placeholderField="Enter your email"/>
-                    <inputTag:inputTextField textLabel="Enter your password:" idField="passField" typeField="password"
-                                             nameField="password" classField="text"
-                                             placeholderField="Enter your password"/>
-                    <input type="submit" value="SIGNIN" id="btnSubmit">
-                    <inputTag:inputCB nameField="rememberme" idCB="remembermeField" valueField="Remember me?"/>
+
                 </form>
-                <p>Don't have an Account? <a href="<c:url value="/registration"/>"> Register Now!</a></p>
             </div>
         </div>
     </div>
 </main>
 <div id="footer">
     <jsp:include page="../includes/footer.jsp"/>
-</div>
 </body>
 </html>
