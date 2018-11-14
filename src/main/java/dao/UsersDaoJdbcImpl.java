@@ -16,6 +16,8 @@ public class UsersDaoJdbcImpl implements UsersDao {
     //language=sql
     private final String SQL_SELECT_BY_USERNAME = "SELECT * FROM desvelado.user WHERE username = ?";
     //language=sql
+    private final String SQL_SELECT_BY_TOKEN = "SELECT * FROM desvelado.user WHERE token = ?";
+    //language=sql
     private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado.user WHERE id = ?";
     //language=sql
     private final String SQL_INSERT = "INSERT INTO desvelado.user(email, username, password, country, gender, birthdate) VALUES (?,?,?,?,?,?)";
@@ -72,6 +74,28 @@ public class UsersDaoJdbcImpl implements UsersDao {
     }
 
     @Override
+    public User findByToken(String token) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TOKEN);
+            statement.setString(1, token);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String username = resultSet.getString("username");
+                Integer countryId = resultSet.getInt("country");
+                String password = resultSet.getString("password");
+                String email = resultSet.getString("email");
+                Boolean gender = resultSet.getBoolean("gender");
+                Date birthdate = resultSet.getDate("birthdate");
+                String country = new CountriesDaoJdbcImpl().find(countryId);
+                return new User(username, email, password, country, gender, birthdate);
+            } else return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    @Override
     public User find(Integer id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
@@ -98,7 +122,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             int country = new CountriesDaoJdbcImpl().findByCountry(model.getCountry());
-            System.out.println(country);
+            System.out.println();
             statement.setString(1, model.getEmail());
             statement.setString(2, model.getUsername());
             statement.setString(3, model.getPassword());

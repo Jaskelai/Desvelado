@@ -1,8 +1,11 @@
 package filters;
 
+import services.UserService;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class AuthentificationFilter implements Filter {
     @Override
@@ -16,10 +19,18 @@ public class AuthentificationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-        } else {
-            filterChain.doFilter(servletRequest,servletResponse);
+            Cookie tokenCookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals("token")).findAny().orElse(null);
+            if (tokenCookie != null) {
+                session = request.getSession();
+                UserService userService = UserService.getUserServiceInstance();
+                String username = userService.findByToken(tokenCookie.getValue()).getUsername();
+                session.setAttribute("username",username);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
         }
+        filterChain.doFilter(request,response);
     }
 
     @Override

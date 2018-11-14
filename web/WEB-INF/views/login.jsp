@@ -30,8 +30,8 @@
                     <inputTag:inputTextField textLabel="Enter your password:" idField="passField" typeField="password"
                                              nameField="password" classField="text"
                                              placeholderField="Enter your password"/>
-                    <input type="submit" value="SIGNIN" id="btnSubmit">
                     <inputTag:inputCB nameField="rememberme" idCB="remembermeField" valueField="Remember me?"/>
+                    <input type="submit" value="SIGNIN" id="btnSubmit">
                 </form>
                 <p>Don't have an Account? <a href="<c:url value="/registration"/>"> Register Now!</a></p>
             </div>

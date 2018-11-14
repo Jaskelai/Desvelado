@@ -3,6 +3,7 @@ package dao;
 import entities.User;
 
 public interface UsersDao extends CrudDao<User> {
-    User findByEmail(String email);
     User findByUsername(String username);
+    User findByToken(String token);
+    User findByEmail(String email);
 }

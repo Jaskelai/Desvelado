@@ -56,6 +56,9 @@ public class UserService {
     public User findByEmail(String email) {
         return usersDao.findByEmail(email);
     }
+    public User findByToken(String token) {
+        return usersDao.findByToken(token);
+    }
 
     public JSONObject validateLogin(String email, String password) {
         JSONObject result = new JSONObject();

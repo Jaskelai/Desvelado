@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
             }
             result.put("url", "profile");
             HttpSession session = req.getSession();
-            session.setMaxInactiveInterval(60*60*24*2);
+            session.setMaxInactiveInterval(20);
             session.setAttribute("username", user.getUsername());
         }
         Writer pw = resp.getWriter();
