@@ -1,7 +1,5 @@
 package filters;
 
-import services.UserService;
-
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class AuthorizationFilter implements Filter {
+public class NotRegFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -21,14 +19,10 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
-            Cookie tokenCookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals("token")).findAny().orElse(null);
-            if (tokenCookie != null) {
-                session = request.getSession();
-                UserService userService = UserService.getUserServiceInstance();
-                String username = userService.findByToken(tokenCookie.getValue()).getUsername();
-                session.setAttribute("username",username);
-            }
+        Cookie tokenCookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals("token")).findAny().orElse(null);
+        if ((session != null && session.getAttribute("username") != null) || tokenCookie != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
         }
         filterChain.doFilter(request,response);
     }

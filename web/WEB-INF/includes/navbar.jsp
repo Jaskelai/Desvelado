@@ -11,7 +11,7 @@
                 <a class="nav-link" href="<c:url value="/home"/>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Videos</a>
+                <a class="nav-link" href="<c:url value="/videos"/>">Videos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="modal" id="btnAbout" href="#About">About</a>
@@ -27,8 +27,11 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">
-                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignOut"
-                           href="<c:url value="/logout"/>">Log out</a>
+                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnProfile"
+                           href="<c:url value="/profile"/>">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -39,6 +42,15 @@
                            href="<c:url value="/registration"/>">Register</a>
                     </li>
                 </c:when>
+                <c:otherwise>
+                    <li class="nav-item">
+                        <a class="btn btn-block btn-md btn-primary btn-custom border-white" id="btnSignOut"
+                           href="<c:url value="/logout"/>">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Log out</span>
+                        </a>
+                    </li>
+                </c:otherwise>
             </c:choose>
         </ul>
     </div>

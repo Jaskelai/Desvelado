@@ -1,12 +1,12 @@
 package services;
 
-import dao.CountriesDaoJdbcImpl;
+import dao.CountriesJdbcImpl;
 import dao.UsersDao;
 import dao.UsersDaoJdbcImpl;
 import entities.User;
 import org.json.JSONObject;
 import utils.PasswordEncryptor;
-import utils.FieldRegValidator;
+import utils.FieldsRegValidator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,14 +28,13 @@ public class UserService {
     }
 
     public String getCountries() {
-        CountriesDaoJdbcImpl countriesDaoJdbc = new CountriesDaoJdbcImpl();
+        CountriesJdbcImpl countriesDaoJdbc = new CountriesJdbcImpl();
         List<String> countries = countriesDaoJdbc.findAll();
-        System.out.println(countries);
-        return countries.toString().replaceAll("\\[", "").replaceAll("]", "").replaceAll(" ", "");
+        return countries.toString().replaceAll("\\[", "").replaceAll("]", "").replaceFirst(" ", "");
     }
 
-    public JSONObject validateReg(User user) {
-        FieldRegValidator fieldValidator = new FieldRegValidator();
+    public JSONObject save(User user) {
+        FieldsRegValidator fieldValidator = new FieldsRegValidator();
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         JSONObject resultValidation = fieldValidator.validate(user.getEmail(),
                 user.getPassword(), sdf.format(user.getBirthday()));
@@ -56,6 +55,7 @@ public class UserService {
     public User findByEmail(String email) {
         return usersDao.findByEmail(email);
     }
+
     public User findByToken(String token) {
         return usersDao.findByToken(token);
     }

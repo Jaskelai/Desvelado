@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountriesDaoJdbcImpl implements CrudDao<String> {
+public class CountriesJdbcImpl implements CrudDao {
 
     private Connection connection;
     // language=sql
@@ -16,12 +16,11 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
     //language=sql
     private final String SQL_SELECT_BY_COUNTRY = "SELECT * FROM desvelado.country WHERE countryname = ?";
 
-    public CountriesDaoJdbcImpl() {
+    public CountriesJdbcImpl() {
         DatabaseConnection databaseConnection = DatabaseConnection.getInstanceToGetConnection();
         connection = databaseConnection.getConnection();
     }
 
-    @Override
     public String find(Integer id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
@@ -37,21 +36,20 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
     }
 
     @Override
-    public void save(String model) {
-        //TODO add save for country
+    public void save(Object model) {
+
     }
 
     @Override
-    public void update(String model) {
-        //TODO add update for country
+    public void update(Object model) {
+
     }
 
     @Override
     public void delete(Integer id) {
-        //TODO add delete for country
+
     }
 
-    @Override
     public List<String> findAll() {
         List<String> countries = new ArrayList<>();
         try {
@@ -81,4 +79,5 @@ public class CountriesDaoJdbcImpl implements CrudDao<String> {
         }
         return 0;
     }
+
 }

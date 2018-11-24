@@ -8,28 +8,38 @@
         <filter-class>filters.AuthentificationFilter</filter-class>
     </filter>
     <filter>
-        <filter-name>authorizationFilter</filter-name>
-        <filter-class>filters.AuthorizationFilter</filter-class>
+        <filter-name>notRegFilter</filter-name>
+        <filter-class>filters.NotRegFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
         <url-pattern>/profile</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>authorizationFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>notRegFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/registration</url-pattern>
     </filter-mapping>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>mytags</taglib-uri>
+            <taglib-location>/WEB-INF/date.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 
 
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
 
-    
+
     <servlet>
         <servlet-name>homeServlet</servlet-name>
         <servlet-class>servlets.HomeServlet</servlet-class>
     </servlet>
+
     <servlet>
         <servlet-name>registrationServlet</servlet-name>
         <servlet-class>servlets.RegistrationServlet</servlet-class>
@@ -46,6 +56,15 @@
         <servlet-name>logoutServlet</servlet-name>
         <servlet-class>servlets.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>videoCatalogServlet</servlet-name>
+        <servlet-class>servlets.VideoCatalogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addVideoServlet</servlet-name>
+        <servlet-class>servlets.AddVideoServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>homeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -54,6 +73,7 @@
         <servlet-name>registrationServlet</servlet-name>
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -65,6 +85,14 @@
     <servlet-mapping>
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>videoCatalogServlet</servlet-name>
+        <url-pattern>/videos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addVideoServlet</servlet-name>
+        <url-pattern>/addcall</url-pattern>
     </servlet-mapping>
 
 

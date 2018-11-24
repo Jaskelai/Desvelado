@@ -2,7 +2,7 @@
 <%@ attribute name="textLabel" required="true" type="java.lang.String" description="Text for label" %>
 <%@ attribute name="idSelect" required="true" type="java.lang.String" description="Id for select" %>
 <%@ attribute name="nameSelect" required="true" type="java.lang.String" description="Name for input" %>
-<%@ attribute name="itemsSelect" required="true" type="java.lang.String" description="Items for select" %>
+<%@ attribute name="itemsSelect" required="false" type="java.lang.String" description="Items for select" %>
 
 <div class="form-group">
     <label for="${idSelect}" class="text label">${textLabel}</label>

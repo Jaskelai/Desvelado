@@ -17,7 +17,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.country = country;
+        this.country = country.replaceFirst(" ","");
         this.gender = gender;
         this.birthday = birthday;
     }

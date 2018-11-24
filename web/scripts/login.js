@@ -22,7 +22,7 @@ $(document).ready(function () {
                 }
             },
             error: function (result) {
-                alert("Something went wrong...");
+                alert("Something went wrong with server...");
             }
         })
     });

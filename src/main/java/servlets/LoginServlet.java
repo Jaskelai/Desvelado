@@ -12,7 +12,7 @@ import java.io.Writer;
 
 public class LoginServlet extends HttpServlet {
 
-    UserService userService = UserService.getUserServiceInstance();
+    private UserService userService = UserService.getUserServiceInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
             }
             result.put("url", "profile");
             HttpSession session = req.getSession();
-            session.setMaxInactiveInterval(20);
+            session.setMaxInactiveInterval(60*60*2);
             session.setAttribute("username", user.getUsername());
         }
         Writer pw = resp.getWriter();

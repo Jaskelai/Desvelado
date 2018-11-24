@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         String bDay = req.getParameter("bDay");
         String country = req.getParameter("country");
-        Boolean gender = req.getParameter("gender").equals("Male");
+        boolean gender = req.getParameter("gender").equals("Male");
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,9 +41,12 @@ public class RegistrationServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        JSONObject resultValidation = userService.validateReg(user);
+        JSONObject errors = userService.save(user);
+        if (errors.toString().equals("{}")) {
+            errors.put("url","login");
+        }
         Writer pw = resp.getWriter();
-        pw.write(resultValidation.toString());
+        pw.write(errors.toString());
         pw.close();
     }
 }

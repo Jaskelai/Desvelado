@@ -18,7 +18,7 @@ $(document).ready(function () {
         };
         if (checkPasswords(password, passwordConfirm)) {
             $.ajax({
-                type: 'Post',
+                type: 'POST',
                 url: 'registration',
                 data: dataFields,
                 success: function (result) {
@@ -26,18 +26,19 @@ $(document).ready(function () {
                         alert(result.fieldError);
                     }
                     if (result.url != null) {
+                        console.log(result.url);
                         window.location.href = result.url;
                     }
                 },
                 error: function (result) {
-                    alert("Something went wrong...");
+                    alert("Something went wrong with server...");
                 }
             })
         }
     });
 
     function checkPasswords(password, passwordConf) {
-        if (password == passwordConf) {
+        if (password === passwordConf) {
             return true;
         } else {
             alert("Passwords do not match!");

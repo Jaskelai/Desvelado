@@ -3,7 +3,7 @@ package utils;
 
 import org.json.JSONObject;
 
-public class FieldRegValidator {
+public class FieldsRegValidator {
     public JSONObject validate(String email, String password, String bDay) {
         EmailRegValidator emailValidator = new EmailRegValidator();
         PasswordRegValidator passwordValidator = new PasswordRegValidator();
