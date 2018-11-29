@@ -13,7 +13,7 @@ public class HomeServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Helper.checkSession(req);
-        RequestDispatcher requestDispatcher = req.getServletContext().getRequestDispatcher("/WEB-INF/views/index.jsp");
-        requestDispatcher.forward(req,resp);
+        req.getServletContext().getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req,resp);
+
     }
 }

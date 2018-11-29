@@ -1,23 +1,27 @@
-html,body {
+html, body {
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
     text-align: left;
-    font-family: 'Oxygen',sans-serif;
+    font-family: 'Oxygen', sans-serif;
 }
+
 .label {
     margin-bottom: 10px;
     color: #ffffff;
 }
+
 .regForm {
     padding-bottom: 20px;
 }
+
 .form-check {
     text-align: center;
     padding-bottom: 10px;
 }
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
     padding: 0;
@@ -177,6 +181,7 @@ input[type="text"], input[type="email"], input[type="password"] {
     color: #fff;
     font-family: 'Roboto', sans-serif;
 }
+
 .custom-select {
 
 }
@@ -184,7 +189,6 @@ input[type="text"], input[type="email"], input[type="password"] {
 input.email, input.text.w3lpass {
     margin: 2em 0;
 }
-
 
 .text:focus, .text:valid {
     box-shadow: none;
@@ -545,13 +549,13 @@ input.checkbox:checked:after {
 }
 
 /*-- responsive-design --*/
-@media(max-width:1440px) {
+@media (max-width: 1440px) {
     input[type="text"], input[type="email"], input[type="password"] {
         width: 94%;
     }
 }
 
-@media(max-width:1366px) {
+@media (max-width: 1366px) {
     h1 {
         font-size: 2.6em;
     }
@@ -569,25 +573,25 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:1280px) {
+@media (max-width: 1280px) {
     .main-agileinfo {
         width: 40%;
     }
 }
 
-@media(max-width:1080px) {
+@media (max-width: 1080px) {
     .main-agileinfo {
         width: 46%;
     }
 }
 
-@media(max-width:1024px) {
+@media (max-width: 1024px) {
     .main-agileinfo {
         width: 49%;
     }
 }
 
-@media(max-width:991px) {
+@media (max-width: 991px) {
     h1 {
         font-size: 2.4em;
     }
@@ -597,7 +601,7 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:900px) {
+@media (max-width: 900px) {
     .main-agileinfo {
         width: 58%;
     }
@@ -607,25 +611,25 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:800px) {
+@media (max-width: 800px) {
     h1 {
         font-size: 2.2em;
     }
 }
 
-@media(max-width:736px) {
+@media (max-width: 736px) {
     .main-agileinfo {
         width: 62%;
     }
 }
 
-@media(max-width:667px) {
+@media (max-width: 667px) {
     .main-agileinfo {
         width: 67%;
     }
 }
 
-@media(max-width:600px) {
+@media (max-width: 600px) {
     .agileits-top {
         padding: 2.2em;
     }
@@ -644,7 +648,7 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:568px) {
+@media (max-width: 568px) {
     .main-agileinfo {
         width: 75%;
     }
@@ -654,7 +658,7 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:480px) {
+@media (max-width: 480px) {
     h1 {
         font-size: 1.8em;
         letter-spacing: 3px;
@@ -673,7 +677,7 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:414px) {
+@media (max-width: 414px) {
     h1 {
         font-size: 1.8em;
         letter-spacing: 2px;
@@ -711,7 +715,7 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:384px) {
+@media (max-width: 384px) {
     .main-agileinfo {
         width: 88%;
     }
@@ -721,13 +725,13 @@ input.checkbox:checked:after {
     }
 }
 
-@media(max-width:375px) {
+@media (max-width: 375px) {
     .agileits-top p {
         letter-spacing: 0px;
     }
 }
 
-@media(max-width:320px) {
+@media (max-width: 320px) {
     .main-w3layouts {
         padding: 1.5em 0 0;
     }
@@ -777,10 +781,21 @@ input.checkbox:checked:after {
         padding: 1em 0 0;
     }
 }
+
 .custom-select {
-    color:white;
-    background-color:transparent;
+    color: white;
+    background-color: transparent;
 }
+
 .custom-select option {
-    color:#000000;
+    color: #000000;
+}
+
+#error {
+    color: #ff0000;
+    text-align: center;
+}
+.background-custom {
+    background: url(../img/shooting-star-Michigan-jwhitephoto-2.jpg) no-repeat center center;
+    background-size: cover;
 }

@@ -6,4 +6,5 @@ public interface UsersDao extends CrudDao<User> {
     User findByUsername(String username);
     User findByToken(String token);
     User findByEmail(String email);
+    int findIdByUsername(String username);
 }

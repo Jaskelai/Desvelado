@@ -20,8 +20,7 @@
 <div id="navbar">
     <jsp:include page="../includes/navbar.jsp"/>
 </div>
-<main class="regForm" style="background: url('<c:url
-        value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover">
+<main class="regForm background-custom">
     <div class="main-w3layouts wrapper">
         <h1>Login:</h1>
         <div class="main-agileinfo">
@@ -33,6 +32,7 @@
                                              nameField="password" classField="text"
                                              placeholderField="Enter your password"/>
                     <inputTag:inputCB nameField="rememberme" idCB="remembermeField" valueField="Remember me?"/>
+                    <div id="error"></div>
                     <input type="submit" value="SIGNIN" id="btnSubmit">
                 </form>
                 <p>Don't have an Account? <a href="<c:url value="/registration"/>"> Register Now!</a></p>

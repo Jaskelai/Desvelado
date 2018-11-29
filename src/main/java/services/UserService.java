@@ -56,6 +56,14 @@ public class UserService {
         return usersDao.findByEmail(email);
     }
 
+    public User findByUsername(String username) {
+        return usersDao.findByUsername(username);
+    }
+
+    public int findIdByUsername(String username) {
+        return usersDao.findIdByUsername(username);
+    }
+
     public User findByToken(String token) {
         return usersDao.findByToken(token);
     }

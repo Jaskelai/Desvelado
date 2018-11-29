@@ -64,6 +64,10 @@
         <servlet-name>addVideoServlet</servlet-name>
         <servlet-class>servlets.AddVideoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>likeServlet</servlet-name>
+        <servlet-class>servlets.LikeServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>homeServlet</servlet-name>
@@ -73,6 +77,7 @@
         <servlet-name>registrationServlet</servlet-name>
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
+
 
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
@@ -94,6 +99,42 @@
         <servlet-name>addVideoServlet</servlet-name>
         <url-pattern>/addcall</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>likeServlet</servlet-name>
+        <url-pattern>/likeserv</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ErrorHandler</servlet-name>
+        <servlet-class>servlets.ErrorHandler</servlet-class>
+    </servlet>
+
+    <!-- servlet mappings -->
+    <servlet-mapping>
+        <servlet-name>ErrorHandler</servlet-name>
+        <url-pattern>/ErrorHandler</url-pattern>
+    </servlet-mapping>
+
+    <!-- error-code related error pages -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+    <error-page>
+        <exception-type>
+            javax.servlet.ServletException
+        </exception-type >
+        <location>/ErrorHandler</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.io.IOException</exception-type >
+        <location>/ErrorHandler</location>
+    </error-page>
 
 
 </web-app>

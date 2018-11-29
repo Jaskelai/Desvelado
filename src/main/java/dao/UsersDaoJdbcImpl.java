@@ -16,6 +16,8 @@ public class UsersDaoJdbcImpl implements UsersDao {
     //language=sql
     private final String SQL_SELECT_BY_USERNAME = "SELECT * FROM desvelado.userreg WHERE username = ?";
     //language=sql
+    private final String SQL_SELECT_ID_BY_USERNAME = "SELECT id FROM desvelado.userreg WHERE username = ?";
+    //language=sql
     private final String SQL_SELECT_BY_TOKEN = "SELECT * FROM desvelado.userreg WHERE token = ?";
     //language=sql
     private final String SQL_SELECT_BY_ID = "SELECT * FROM desvelado.userreg WHERE id = ?";
@@ -55,6 +57,21 @@ public class UsersDaoJdbcImpl implements UsersDao {
     }
 
     @Override
+    public int findIdByUsername(String username) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ID_BY_USERNAME);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            } else return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    @Override
     public User findByUsername(String username) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME);
@@ -64,7 +81,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 Integer countryId = resultSet.getInt("country_id");
                 String password = resultSet.getString("password");
                 String email = resultSet.getString("email");
-                Boolean gender = resultSet.getBoolean("gender");
+                boolean gender = resultSet.getBoolean("gender");
                 Date birthdate = resultSet.getDate("birthdate");
                 String country = new CountriesJdbcImpl().find(countryId);
                 return new User(username, email, password, country, gender, birthdate);
@@ -108,7 +125,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
                 Integer countryId = resultSet.getInt("country_id");
-                Boolean gender = resultSet.getBoolean("gender");
+                boolean gender = resultSet.getBoolean("gender");
                 Date birthdate = resultSet.getDate("birthdate");
                 String country = new CountriesJdbcImpl().find(countryId);
                 return new User(username, email, password, country, gender, birthdate);

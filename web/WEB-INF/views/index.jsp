@@ -20,9 +20,7 @@
     <div id="navbar">
         <jsp:include page="../includes/navbar.jsp"/>
     </div>
-    <header class="masthead text-white text-center"
-            style="background: url('<c:url
-                    value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover">
+    <header class="masthead text-white text-center background-custom">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">

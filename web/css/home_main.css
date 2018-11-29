@@ -19,9 +19,14 @@ header.masthead .overlay {
     width: 100%;
     top: 0;
     left: 0;
-    opacity: 0.3;
+    opacity: 0.1;
 }
 
 header.masthead h1 {
     font-size: 2rem;
+}
+
+.background-custom {
+    background: url(../img/shooting-star-Michigan-jwhitephoto-2.jpg) no-repeat center center;
+    background-size: cover;
 }

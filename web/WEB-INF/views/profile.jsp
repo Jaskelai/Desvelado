@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="mytags" prefix="mydate" %>
+<%@ taglib prefix="inputTag" tagdir="/WEB-INF/tags" %>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,19 +10,40 @@
     <link rel="stylesheet" href="<c:url value="/css/oxygen_font.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/navbar.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/footer.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/profile.css"/>">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script src="<c:url value = "/scripts/jquery.js"/>"></script>
     <script src="<c:url value="/scripts/bootstrap.min.js"/>"></script>
+    <script src="<c:url value = "/scripts/profile.js"/>"></script>
 </head>
 <body>
 <div id="navbar">
     <jsp:include page="../includes/navbar.jsp"/>
 </div>
-<mydate:dateNumber date="1542237543000"></mydate:dateNumber>
-<mydate:dateNumber date="1542300000000"></mydate:dateNumber>
-<main class="profile" style="background: url('<c:url
-        value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover"></main>
+<main class="profile background-custom">
+    <h1 class="greetings heading-text">Welcome, ${sessionScope.username}</h1>
+    <div class="row">
+        <div class="column fav-videos" id="leftColumn">
+            <div class="center-block">
+                <h2 class="column-heading heading-text">Your favourite videos:</h2>
+                <c:forEach items="${requestScope.favVideos}" var="video">
+                    <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
+                                    description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
+                </c:forEach>
+            </div>
+        </div>
+        <div class="column own-videos">
+            <div class="center-block">
+                <h2 class="column-heading heading-text">Your uploaded videos:</h2>
+                <c:forEach items="${requestScope.ownedVideos}" var="video">
+                    <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
+                                    description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+</main>
 <div id="footer">
     <jsp:include page="../includes/footer.jsp"/>
 </body>

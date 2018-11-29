@@ -13,20 +13,31 @@ public class DateTag extends SimpleTagSupport {
     public void setDate(long date) {
         this.date = date;
     }
+
     public long getDate() {
         return date;
     }
+
     @Override
-    public void doTag() throws  IOException {
-        long currentDate = System.currentTimeMillis();
-        if (currentDate - date < 1000 * 60 * 60 * 24 ) {
-            getJspContext().getOut().write("today.");
+    public void doTag() throws IOException {
+        long millisAgo = System.currentTimeMillis() - date;
+        if (millisAgo < 1000 * 60) {
+            long seconds = millisAgo / 1000;
+            getJspContext().getOut().write(seconds + " seconds ago");
+        } else if (millisAgo < 1000 * 60 * 60) {
+            long minutes = millisAgo / (1000 * 60);
+            getJspContext().getOut().write(minutes + " minutes ago");
+        } else if (millisAgo < 1000 * 60 * 60 * 24) {
+            long hours = millisAgo / (1000 * 60 * 60);
+            getJspContext().getOut().write(hours + " hours ago");
+        } else if (millisAgo < 1000L * 60 * 60 * 24 * 30) {
+            long days = millisAgo / (1000 * 60 * 60 * 24);
+            getJspContext().getOut().write(days + " days ago");
+        } else if (millisAgo < 1000L * 60 * 60 * 24 * 365) {
+            long months = millisAgo / (1000L * 60 * 60 * 24 * 30);
+            getJspContext().getOut().write(months + " months ago");
         } else {
-            getJspContext().getOut().write("earlier, than today.");
+            getJspContext().getOut().write("more than a year ago");
         }
-//        Date date = new Date(getDate());
-//        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
-//        String dateText = df2.format(date);
-//        getJspContext().getOut().write(dateText);
     }
 }

@@ -25,8 +25,7 @@
 <div id="navbar">
     <jsp:include page="../includes/navbar.jsp"/>
 </div>
-<main class="regForm" style="background: url('<c:url
-        value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover">
+<main class="regForm background-custom">
     <div class="main-w3layouts wrapper">
         <h1>Registration:</h1>
         <div class="main-agileinfo">
@@ -51,6 +50,7 @@
                                              nameField="bDay" classField="custom-select date"/>
                     <inputTag:inputCB idCB="licenceCBField" nameField="licenceCB"
                                       valueField="I Agree To The Terms & Conditions"/>
+                    <div id="error"></div>
                     <input type="submit" value="SIGNUP" id="btnSubmit">
                 </form>
                 <p>Already have an Account? <a href="<c:url value="/login"/>"> Login Now!</a></p>

@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: dataFields,
             success: function (result) {
                 if (result.fieldError != null) {
-                    alert(result.fieldError);
+                    $('#error').text(result.fieldError);
                 }
                 if (result.url != null) {
                     window.location.href = result.url;

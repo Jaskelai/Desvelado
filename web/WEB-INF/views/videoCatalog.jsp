@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="inputTag" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib uri="/WEB-INF/date.tld" prefix="m" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,60 +21,50 @@
 <div id="navbar">
     <jsp:include page="../includes/navbar.jsp"/>
 </div>
-<main class="profile" style="background: url('<c:url
-        value="/img/shooting-star-Michigan-jwhitephoto-2.jpg"/>') no-repeat center center; background-size: cover">
+<main class="profile background-custom">
     <div class="row top-buffer">
-        <inputTag:video id="dQw4w9WgXcQ" description="HAHA"/>
-        <inputTag:video id="g_9YilEyN48" description="???????"/>
-        <inputTag:video id="O4irXQhgMqg" description=""/>
+        <c:forEach items="${requestScope.videos}" var="video">
+            <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
+                            description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
+        </c:forEach>
     </div>
-    <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="modalUpload"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-custom" role="document">
             <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Add a video from youtube</h4>
+                <div class="modal-headerVideo modal-headerVideo-custom">
+                    <h4 class="modal-title">Add a video from youtube</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <div class="form-check form-check-inline">
-                            <i class="fas fa-link prefix grey-text fa-2x"></i>
-                            <input type="text" id="linkInput" class="form-control"
-                                   placeholder="Give a link for the video" maxlength="50">
-                        </div>
+                <div class="form-custom">
+                    <div class="input-custom">
+                        <label>Youtube link:</label>
+                        <input type="text" id="linkInput" class="form-control form-control-custom"
+                               maxlength="50">
                     </div>
-
-                    <div class="md-form mb-5">
-                        <div class="form-check form-check-inline">
-                            <i class="fas fa-heading prefix grey-text fa-2x"></i>
-                            <input type="text" id="headerInput" class="form-control"
-                                   placeholder="Give the name" maxlength="30">
-                        </div>
+                    <div class="input-custom">
+                        <label>Header:</label>
+                        <input type="text" id="headerInput" class="form-control form-control-custom"
+                               maxlength="30">
                     </div>
-                    <div class="md-form mb-5">
-                        <div class="form-check form-check-inline">
-                            <i class="fas fa-tag prefix grey-text fa-2x"></i>
-                            <textarea id="descriptionInput" class="form-control"
-                                      placeholder="Give the description " maxlength="500"></textarea>
-                        </div>
+                    <div class="input-custom">
+                        <label>Description:</label>
+                        <textarea id="descriptionInput" class="form-control from-control-custom"
+                                  maxlength="500"></textarea>
                     </div>
-
                 </div>
-                <div class="errors">
-                        ${requestScope.errorUpload}
-                </div>
+                <div id="error"></div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-unique" id="btnUpload">Upload<</button>
+                    <button class="btn btn-unique" id="btnUpload">Upload</button>
                 </div>
             </div>
         </div>
     </div>
     <c:choose>
         <c:when test='${sessionScope.username != null}'>
-            <a class="btn-float" href="" data-toggle="modal" data-target="#modalContactForm"><i
+            <a class="btn-float" href="" data-toggle="modal" data-target="#modalUpload"><i
                     class="fas fa-plus fa-3x iconAdd"></i></a>
         </c:when>
     </c:choose>

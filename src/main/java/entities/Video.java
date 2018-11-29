@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class Video {
@@ -9,16 +7,17 @@ public class Video {
     private String usernameOwner;
     private int likes;
     private String description;
-    private String header;
-    private Calendar date;
+    private String headerVideo;
+    private Long dateVideo;
+    private boolean like;
 
 
-    public Video(String youtubeId, String usernameOwner, int likes, String header, Calendar date, String description) {
+    public Video(String youtubeId, String usernameOwner, int likes, String headerVideo, Long dateVideo, String description) {
         this.youtubeId = youtubeId;
         this.usernameOwner = usernameOwner;
         this.likes = likes;
-        this.header = header;
-        this.date = date;
+        this.headerVideo = headerVideo;
+        this.dateVideo = dateVideo;
         this.description = description;
     }
 
@@ -54,20 +53,28 @@ public class Video {
         this.description = description;
     }
 
-    public String getHeader() {
-        return header;
+    public String getHeaderVideo() {
+        return headerVideo;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setHeaderVideo(String headerVideo) {
+        this.headerVideo = headerVideo;
     }
 
-    public Calendar getDate() {
-        return date;
+    public Long getDateVideo() {
+        return dateVideo;
     }
 
-    public void setDate(Calendar date) {
-        this.date = date;
+    public void setDateVideo(Long dateVideo) {
+        this.dateVideo = dateVideo;
+    }
+
+    public boolean getLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
     }
 
     @Override
@@ -79,12 +86,24 @@ public class Video {
                 Objects.equals(youtubeId, video.youtubeId) &&
                 Objects.equals(usernameOwner, video.usernameOwner) &&
                 Objects.equals(description, video.description) &&
-                Objects.equals(header, video.header) &&
-                Objects.equals(date, video.date);
+                Objects.equals(headerVideo, video.headerVideo) &&
+                Objects.equals(dateVideo, video.dateVideo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(youtubeId, usernameOwner, likes, description, header, date);
+        return Objects.hash(youtubeId, usernameOwner, likes, description, headerVideo, dateVideo);
+    }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "youtubeId='" + youtubeId + '\'' +
+                ", usernameOwner='" + usernameOwner + '\'' +
+                ", likes=" + likes +
+                ", description='" + description + '\'' +
+                ", headerVideo='" + headerVideo + '\'' +
+                ", date=" + dateVideo + ", like =" + like +
+                '}';
     }
 }

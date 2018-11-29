@@ -67,17 +67,15 @@
             <div class="modal-body">
 
                 <h3>Welcome to Desvelado</h3>
-                <p>
-                    We all know the feeling of insomnia. Your body wants to sleep but your mind is still awake and
-                    active. So how can we steady up our mind.
-                <p/>
-                <p>
-                    Desvelado is a parody video platform where you can find the most silent and sleepy content selection
-                    to relax your brain and easily fall asleep.
-                <p/>
-                <p>
-                    Taking siesta to the next level.
-                </p>
+                <p>We all know the feeling of insomnia. Your body wants to sleep but your mind is still awake and
+                    active. So how can we steady up our mind.</p>
+                <p>Desvelado is a parody video platform where you can find the most silent and sleepy content selection
+                    to relax your brain and easily fall asleep.</p>
+                <p>Just click on the "Video" button on top, and you will receive a list of videos that will help you
+                    fall asleep.</p>
+                <p>Registered users will be able to add videos to favorites, by liking them, and thereby promote this
+                    video to the top.</p>
+                <p>Taking siesta to the next level.</p>
 
             </div>
         </div>

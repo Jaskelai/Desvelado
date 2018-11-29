@@ -27,19 +27,19 @@ public class LoginServlet extends HttpServlet {
         User user = userService.findByEmail(email);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        JSONObject result = userService.validateLogin(email,password);
+        JSONObject result = userService.validateLogin(email, password);
         if (result.toString().equals("{}")) {
             if (rememberme.equals("true")) {
                 String token = new TokenGenerator(20).nextString();
                 Cookie tokenCookie = new Cookie("token", token);
-                tokenCookie.setMaxAge(60*60*24*365);
+                tokenCookie.setMaxAge(60 * 60 * 24 * 365);
                 resp.addCookie(tokenCookie);
                 user.setToken(token);
                 userService.update(user);
             }
             result.put("url", "profile");
             HttpSession session = req.getSession();
-            session.setMaxInactiveInterval(60*60*2);
+            session.setMaxInactiveInterval(60 * 60 * 2);
             session.setAttribute("username", user.getUsername());
         }
         Writer pw = resp.getWriter();
