@@ -2,6 +2,7 @@ package dao;
 
 import entities.User;
 import entities.Video;
+import exceptions.DBException;
 import javafx.util.Pair;
 import utils.DatabaseConnection;
 
@@ -33,7 +34,7 @@ public class LikeDaoJdbcImpl implements LikeDao {
     }
 
     @Override
-    public Pair<User, Video> find(Integer id) {
+    public Pair<User, Video> find(Integer id) throws DBException {
         Pair<User, Video> pair = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
@@ -47,8 +48,7 @@ public class LikeDaoJdbcImpl implements LikeDao {
                 pair = new Pair<>(user, video);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
         return pair;
     }
@@ -59,30 +59,30 @@ public class LikeDaoJdbcImpl implements LikeDao {
     }
 
     @Override
-    public void save(Pair<User, Video> model) {
+    public void save(Pair<User, Video> model) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             statement.setInt(1, new VideoDaoJdbcImpl().findIdByYoutubeId(model.getValue().getYoutubeId()));
             statement.setInt(2, new UsersDaoJdbcImpl().findIdByUsername(model.getKey().getUsername()));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
     @Override
-    public List<Pair<User, Video>> findAll() {
+    public List<Pair<User, Video>> findAll() throws DBException {
         List<Pair<User, Video>> videos = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -93,13 +93,13 @@ public class LikeDaoJdbcImpl implements LikeDao {
                 videos.add(new Pair<>(new UsersDaoJdbcImpl().find(idUser), new VideoDaoJdbcImpl().find(idVideo)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return videos;
     }
 
     @Override
-    public List<Video> findByUser(int userid) {
+    public List<Video> findByUser(int userid) throws DBException {
         List<Video> videos = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERID);
@@ -110,21 +110,20 @@ public class LikeDaoJdbcImpl implements LikeDao {
                 videos.add(new VideoDaoJdbcImpl().find(videoId));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
         return videos;
     }
 
     @Override
-    public void delete(Pair<User, Video> pair) {
+    public void delete(Pair<User, Video> pair) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_BY_PAIR);
             statement.setInt(1, new UsersDaoJdbcImpl().findIdByUsername(pair.getKey().getUsername()));
             statement.setInt(2, new VideoDaoJdbcImpl().findIdByYoutubeId(pair.getValue().getYoutubeId()));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 

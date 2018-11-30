@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function () {
     $("#btnUpload").on('click', function (e) {
         e.preventDefault();
         var link = $('#linkInput').val();
@@ -16,6 +16,9 @@ $(document).ready(function () {
             success: function (result) {
                 if (!result.hasOwnProperty("errorUpload")) {
                     $('#modalUpload').modal('hide');
+                    link.value = '';
+                    header.value = '';
+                    description.value = '';
                 } else {
                     $('#error').text(result.errorUpload);
                 }
@@ -32,7 +35,7 @@ $(document).ready(function () {
         $(this).toggleClass("fas far");
         var idLike = idLink.concat('likes');
         var likesElement = document.getElementById(idLike);
-        var likes = parseInt(likesElement.text,10);
+        var likes = parseInt(likesElement.text, 10);
         if (e.target.classList.contains("fas")) {
             isLiked = true;
             likesElement.innerHTML = '';
@@ -59,7 +62,7 @@ $(document).ready(function () {
         })
     });
     $(window).on('load', function () {
-        $('.post-module').hover(function () {
+        $('.post-module').on('hover', function () {
             $(this).find('.description').stop().animate({
                 height: "toggle",
                 opacity: "toggle"

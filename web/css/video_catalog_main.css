@@ -255,6 +255,7 @@ html, body {
 .modal-dialog-custom {
     background-color: #eee;
 }
+
 h4 .modal-title {
     max-width: 400px;
 }
@@ -303,14 +304,17 @@ h4 .modal-title {
     text-transform: uppercase;
 
 }
+
 .num-likes {
     margin-top: 30px;
     padding-left: 110px;
 }
+
 .background-custom {
     background: url(../img/shooting-star-Michigan-jwhitephoto-2.jpg) no-repeat center center;
     background-size: cover;
 }
+
 .heartImg {
     margin-top: 37px;
     margin-left: 2px;

@@ -1,6 +1,7 @@
 package servlets;
 
 import entities.User;
+import exceptions.DBException;
 import org.json.JSONObject;
 import services.UserService;
 import utils.TokenGenerator;
@@ -21,29 +22,34 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String rememberme = req.getParameter("rememberme");
-        User user = userService.findByEmail(email);
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        JSONObject result = userService.validateLogin(email, password);
-        if (result.toString().equals("{}")) {
-            if (rememberme.equals("true")) {
-                String token = new TokenGenerator(20).nextString();
-                Cookie tokenCookie = new Cookie("token", token);
-                tokenCookie.setMaxAge(60 * 60 * 24 * 365);
-                resp.addCookie(tokenCookie);
-                user.setToken(token);
-                userService.update(user);
+        try {
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+            String rememberme = req.getParameter("rememberme");
+            User user = userService.findByEmail(email);
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            JSONObject result = userService.validateLogin(email, password);
+            if (result.toString().equals("{}")) {
+                if (rememberme.equals("true")) {
+                    String token = new TokenGenerator(20).nextString();
+                    Cookie tokenCookie = new Cookie("token", token);
+                    tokenCookie.setMaxAge(60 * 60 * 24 * 365);
+                    resp.addCookie(tokenCookie);
+                    user.setToken(token);
+                    userService.update(user);
+                }
+                result.put("url", "profile");
+                HttpSession session = req.getSession();
+                session.setMaxInactiveInterval(60 * 60 * 2);
+                session.setAttribute("username", user.getUsername());
             }
-            result.put("url", "profile");
-            HttpSession session = req.getSession();
-            session.setMaxInactiveInterval(60 * 60 * 2);
-            session.setAttribute("username", user.getUsername());
+            Writer pw = resp.getWriter();
+            pw.write(result.toString());
+            pw.close();
+        } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        Writer pw = resp.getWriter();
-        pw.write(result.toString());
-        pw.close();
+
     }
 }

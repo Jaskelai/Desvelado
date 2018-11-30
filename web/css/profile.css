@@ -1,14 +1,15 @@
-html,body
-{
+html, body {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
+
 .profile {
     min-height: 100%;
 }
+
 .row {
     display: flex;
 }
@@ -16,10 +17,12 @@ html,body
 .column {
     flex: 50%;
 }
+
 .background-custom {
     background: url(../img/shooting-star-Michigan-jwhitephoto-2.jpg) no-repeat center center;
     background-size: cover;
 }
+
 .video-preview {
     margin-left: 3.25%;
     margin-right: 3.25%;
@@ -314,33 +317,45 @@ html,body
     text-transform: uppercase;
 
 }
+
 .num-likes {
     margin-top: 30px;
     padding-left: 85px;
 }
+
 .heartImg {
     margin-top: 37px;
     margin-left: 2px;
 }
+
 .center-block {
     margin-left: 23%;
 }
+
 #leftColumn {
     border-right: 1px solid #ccc;
 }
+
 .column-heading {
     padding-top: 10px;
 }
+
 h1 {
     font-weight: 500;
 }
+
 .greetings {
     padding-top: 15px;
     text-align: center;
     padding-bottom: 10px;
 }
+
 .heading-text {
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
     font-family: "Impact", sans-serif;
     color: #dcdde1;
+}
+.empty-videos {
+    padding-top: 20px;
+    color: #FFFFFF;
 }

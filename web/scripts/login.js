@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function () {
     $("#form").on('submit', function (e) {
         e.preventDefault();
         var email = $('#emailField').val();
@@ -18,6 +18,8 @@ $(document).ready(function () {
                     $('#error').text(result.fieldError);
                 }
                 if (result.url != null) {
+                    email.value = '';
+                    password.value = '';
                     window.location.href = result.url;
                 }
             },

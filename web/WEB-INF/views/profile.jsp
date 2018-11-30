@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="inputTag" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -27,19 +28,33 @@
         <div class="column fav-videos" id="leftColumn">
             <div class="center-block">
                 <h2 class="column-heading heading-text">Your favourite videos:</h2>
-                <c:forEach items="${requestScope.favVideos}" var="video">
-                    <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
-                                    description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${fn:length(requestScope.favVideos) > 0}">
+                        <c:forEach items="${requestScope.favVideos}" var="video">
+                            <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
+                                            description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <h2 class="empty-videos">No favourite videos</h2>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <div class="column own-videos">
             <div class="center-block">
                 <h2 class="column-heading heading-text">Your uploaded videos:</h2>
-                <c:forEach items="${requestScope.ownedVideos}" var="video">
-                    <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
-                                    description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${fn:length(requestScope.ownedVideos) > 0}">
+                        <c:forEach items="${requestScope.ownedVideos}" var="video">
+                            <inputTag:video id="${video.youtubeId}" headerVideo="${video.headerVideo}"
+                                            description="${video.description}" datePost="${video.dateVideo}" like="${video.like}" likesCount="${video.likes}" username="${video.usernameOwner}"/>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <h2 class="empty-videos">No uploaded videos</h2>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

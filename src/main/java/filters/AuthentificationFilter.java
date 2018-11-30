@@ -1,5 +1,6 @@
 package filters;
 
+import exceptions.DBException;
 import services.UserService;
 
 import javax.servlet.*;
@@ -23,14 +24,19 @@ public class AuthentificationFilter implements Filter {
             if (tokenCookie != null) {
                 session = request.getSession();
                 UserService userService = UserService.getUserServiceInstance();
-                String username = userService.findByToken(tokenCookie.getValue()).getUsername();
-                session.setAttribute("username",username);
+                String username = null;
+                try {
+                    username = userService.findByToken(tokenCookie.getValue()).getUsername();
+                } catch (DBException e) {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                }
+                session.setAttribute("username", username);
             } else {
                 response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     @Override

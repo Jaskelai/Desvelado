@@ -1,5 +1,6 @@
 package servlets;
 
+import exceptions.DBException;
 import utils.Helper;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +13,11 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Helper.checkSession(req);
+        try {
+            Helper.checkSession(req);
+        } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         req.getServletContext().getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req,resp);
 
     }

@@ -1,6 +1,7 @@
 package servlets;
 
 import entities.Video;
+import exceptions.DBException;
 import org.json.JSONObject;
 import services.VideoService;
 
@@ -25,7 +26,12 @@ public class AddVideoServlet extends HttpServlet {
         Video video = new Video(youtubeLink, username, 0, header, System.currentTimeMillis(), description);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        JSONObject result = videoService.save(video,username);
+        JSONObject result = null;
+        try {
+            result = videoService.save(video,username);
+        } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         Writer pw = resp.getWriter();
         pw.write(result.toString());
         pw.close();

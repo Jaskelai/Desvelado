@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Video;
+import exceptions.DBException;
 import utils.DatabaseConnection;
 
 import java.sql.*;
@@ -37,7 +38,7 @@ public class VideoDaoJdbcImpl implements VideoDao {
     }
 
     @Override
-    public Video find(Integer id) {
+    public Video find(Integer id) throws DBException {
         Video video = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
@@ -52,13 +53,13 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 video = new Video(link, username, findLikes(id), header, dateMillis, description);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return video;
     }
 
     @Override
-    public void save(Video model) {
+    public void save(Video model) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             statement.setString(1, model.getYoutubeId());
@@ -68,7 +69,7 @@ public class VideoDaoJdbcImpl implements VideoDao {
             statement.setLong(5, model.getDateVideo());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
@@ -83,7 +84,7 @@ public class VideoDaoJdbcImpl implements VideoDao {
     }
 
     @Override
-    public List<Video> findAll() {
+    public List<Video> findAll() throws DBException {
         List<Video> videos = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -99,13 +100,13 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 videos.add(video);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return videos;
     }
 
     @Override
-    public int findLikes(int id) {
+    public int findLikes(int id) throws DBException {
         int num = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_NUM_LIKES);
@@ -115,13 +116,13 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 num++;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return num;
     }
 
     @Override
-    public Video findByYoutubeId(String youtubeId) {
+    public Video findByYoutubeId(String youtubeId) throws DBException {
         Video video = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_YOUTUBE_ID);
@@ -137,13 +138,13 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 video = new Video(link, username, findLikes(id), header, dateMillis, description);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return video;
     }
 
     @Override
-    public int findIdByYoutubeId(String link) {
+    public int findIdByYoutubeId(String link) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ID_BY_VIDEO_LINK);
             statement.setString(1, link);
@@ -152,13 +153,12 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 return resultSet.getInt("id");
             } else return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public void saveWUser(Video video, String username) {
+    public void saveWUser(Video video, String username) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             statement.setString(1, video.getYoutubeId());
@@ -168,12 +168,12 @@ public class VideoDaoJdbcImpl implements VideoDao {
             statement.setLong(5, video.getDateVideo());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
     @Override
-    public List<Video> findByUsername(String username) {
+    public List<Video> findByUsername(String username) throws DBException {
         List<Video> videos = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME);
@@ -187,13 +187,11 @@ public class VideoDaoJdbcImpl implements VideoDao {
                 String header = resultSet.getString("header");
                 int id = resultSet.getInt("id");
                 Video video = new Video(link, username, findLikes(id), header, dateMillis, description);
-                System.out.println(video);
                 videos.add(video);
             }
             return videos;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 }

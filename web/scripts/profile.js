@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function () {
     $(".toggler").on('click', function (e) {
         e.preventDefault();
         var idLink = e.target.id;

@@ -17,10 +17,11 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.country = country.replaceFirst(" ","");
+        this.country = country.replaceFirst(" ", "");
         this.gender = gender;
         this.birthday = birthday;
     }
+
     public User(String username, String email, String password, String country, boolean gender, Date birthday, String token) {
         this.username = username;
         this.email = email;

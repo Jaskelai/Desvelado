@@ -1,5 +1,6 @@
 package utils;
 
+import exceptions.DBException;
 import services.UserService;
 
 import javax.servlet.http.Cookie;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Helper {
-    public static void checkSession(HttpServletRequest req) {
+    public static void checkSession(HttpServletRequest req) throws DBException {
         HttpSession session = req.getSession(false);
         Cookie tokenCookie = Arrays.stream(req.getCookies()).filter(c -> c.getName().equals("token")).findAny().orElse(null);
         if (session == null || session.getAttribute("username") == null) {

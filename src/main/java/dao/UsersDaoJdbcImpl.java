@@ -1,6 +1,7 @@
 package dao;
 
 import entities.User;
+import exceptions.DBException;
 import utils.DatabaseConnection;
 
 import java.sql.*;
@@ -36,7 +37,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_EMAIL);
             statement.setString(1, email);
@@ -51,13 +52,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 return new User(username, email, password, country, gender, birthdate);
             } else return null;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public int findIdByUsername(String username) {
+    public int findIdByUsername(String username) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ID_BY_USERNAME);
             statement.setString(1, username);
@@ -66,13 +66,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 return resultSet.getInt("id");
             } else return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_USERNAME);
             statement.setString(1, username);
@@ -87,13 +86,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 return new User(username, email, password, country, gender, birthdate);
             } else return null;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public User findByToken(String token) {
+    public User findByToken(String token) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_TOKEN);
             statement.setString(1, token);
@@ -109,13 +107,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 return new User(username, email, password, country, gender, birthdate);
             } else return null;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public User find(Integer id) {
+    public User find(Integer id) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
             statement.setInt(1, id);
@@ -131,13 +128,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 return new User(username, email, password, country, gender, birthdate);
             } else return null;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
     }
 
     @Override
-    public void save(User model) {
+    public void save(User model) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             int country = new CountriesJdbcImpl().findByCountry(model.getCountry());
@@ -149,12 +145,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
             statement.setDate(6, new java.sql.Date(model.getBirthday().getTime()));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
     @Override
-    public void update(User model) {
+    public void update(User model) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
             int country = new CountriesJdbcImpl().findByCountry(model.getCountry());
@@ -167,7 +163,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
             statement.setString(7,model.getUsername());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
     }
 
@@ -183,7 +179,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws DBException {
         List<User> users = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -199,7 +195,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBException();
         }
         return users;
     }

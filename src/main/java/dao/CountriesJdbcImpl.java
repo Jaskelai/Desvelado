@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.DBException;
 import utils.DatabaseConnection;
 
 import java.sql.*;
@@ -21,7 +22,7 @@ public class CountriesJdbcImpl implements CrudDao {
         connection = databaseConnection.getConnection();
     }
 
-    public String find(Integer id) {
+    public String find(Integer id) throws DBException {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
             statement.setInt(1, id);
@@ -30,9 +31,37 @@ public class CountriesJdbcImpl implements CrudDao {
                 return resultSet.getString("countryname");
             } else return null;
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
+            throw new DBException();
         }
+    }
+
+    public List<String> findAll() throws DBException {
+        List<String> countries = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL);
+            while (resultSet.next()) {
+                String country = resultSet.getString("countryname");
+                countries.add(country);
+            }
+        } catch (SQLException e) {
+            throw new DBException();
+        }
+        return countries;
+    }
+
+    public int findByCountry(String country) throws DBException {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_COUNTRY);
+            statement.setString(1, country);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            throw new DBException();
+        }
+        return 0;
     }
 
     @Override
@@ -48,36 +77,6 @@ public class CountriesJdbcImpl implements CrudDao {
     @Override
     public void delete(Integer id) {
 
-    }
-
-    public List<String> findAll() {
-        List<String> countries = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL);
-            while (resultSet.next()) {
-                String country = resultSet.getString("countryname");
-                countries.add(country);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return countries;
-    }
-
-    public int findByCountry(String country) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_COUNTRY);
-            statement.setString(1, country);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
-        return 0;
     }
 
 }

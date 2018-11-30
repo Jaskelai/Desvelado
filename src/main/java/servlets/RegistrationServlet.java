@@ -1,6 +1,7 @@
 package servlets;
 
 import entities.User;
+import exceptions.DBException;
 import org.json.JSONObject;
 import services.UserService;
 
@@ -20,7 +21,11 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listCountries", userService.getCountries());
+        try {
+            req.setAttribute("listCountries", userService.getCountries());
+        } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
         req.getServletContext().getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
     }
 
@@ -41,7 +46,13 @@ public class RegistrationServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        JSONObject errors = userService.save(user);
+        JSONObject errors = null;
+        try {
+            errors = userService.save(user);
+        } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
         if (errors.toString().equals("{}")) {
             errors.put("url","login");
         }

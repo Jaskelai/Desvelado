@@ -3,6 +3,7 @@ package services;
 import dao.VideoDao;
 import dao.VideoDaoJdbcImpl;
 import entities.Video;
+import exceptions.DBException;
 import org.json.JSONObject;
 import utils.YoutubeLinkValidator;
 
@@ -36,7 +37,7 @@ public class VideoService {
         return null;
     }
 
-    public JSONObject save(Video video, String username) {
+    public JSONObject save(Video video, String username) throws DBException {
         JSONObject resultValidation = new JSONObject();
         if (!YoutubeLinkValidator.validate(video.getYoutubeId())) {
             resultValidation.put("errorUpload", "Wrong link to youtube!");
@@ -47,21 +48,23 @@ public class VideoService {
             resultValidation.put("errorUpload", "Video already exist!");
             return resultValidation;
         }
-        videoDao.saveWUser(video,username);
+        videoDao.saveWUser(video, username);
         return resultValidation;
     }
 
-    public List<Video> getAllVideos() {
+    public List<Video> getAllVideos() throws DBException {
         return videoDao.findAll();
     }
-    public Video findByIdVid(String youtubeId) {
+
+    public Video findByIdVid(String youtubeId) throws DBException {
         return videoDao.findByYoutubeId(youtubeId);
     }
 
-    public List<Video> getUserVideos(String username) {
+    public List<Video> getUserVideos(String username) throws DBException {
         return videoDao.findByUsername(username);
     }
-    public List<Video> getFavVideos(String username) {
+
+    public List<Video> getFavVideos(String username) throws DBException {
         return LikeService.getLikeServiceInstance().getLikedVideos(username);
     }
 

@@ -4,6 +4,7 @@ import dao.CountriesJdbcImpl;
 import dao.UsersDao;
 import dao.UsersDaoJdbcImpl;
 import entities.User;
+import exceptions.DBException;
 import org.json.JSONObject;
 import utils.PasswordEncryptor;
 import utils.FieldsRegValidator;
@@ -17,7 +18,6 @@ public class UserService {
     private UsersDao usersDao = new UsersDaoJdbcImpl();
 
     private UserService() {
-
     }
 
     public static UserService getUserServiceInstance() {
@@ -27,13 +27,13 @@ public class UserService {
         return userService;
     }
 
-    public String getCountries() {
+    public String getCountries() throws DBException {
         CountriesJdbcImpl countriesDaoJdbc = new CountriesJdbcImpl();
         List<String> countries = countriesDaoJdbc.findAll();
         return countries.toString().replaceAll("\\[", "").replaceAll("]", "").replaceFirst(" ", "");
     }
 
-    public JSONObject save(User user) {
+    public JSONObject save(User user) throws DBException {
         FieldsRegValidator fieldValidator = new FieldsRegValidator();
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         JSONObject resultValidation = fieldValidator.validate(user.getEmail(),
@@ -52,23 +52,23 @@ public class UserService {
         return resultValidation;
     }
 
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws DBException {
         return usersDao.findByEmail(email);
     }
 
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws DBException {
         return usersDao.findByUsername(username);
     }
 
-    public int findIdByUsername(String username) {
+    public int findIdByUsername(String username) throws DBException {
         return usersDao.findIdByUsername(username);
     }
 
-    public User findByToken(String token) {
+    public User findByToken(String token) throws DBException {
         return usersDao.findByToken(token);
     }
 
-    public JSONObject validateLogin(String email, String password) {
+    public JSONObject validateLogin(String email, String password) throws DBException {
         JSONObject result = new JSONObject();
         if (usersDao.findByEmail(email) == null) {
             result.put("fieldError", "Email does not exist in database!");
@@ -78,7 +78,7 @@ public class UserService {
         return result;
     }
 
-    public void update(User user) {
+    public void update(User user) throws DBException {
         usersDao.update(user);
     }
 }
